@@ -42,10 +42,10 @@ protected:
 	float BottomLaneOffsetZ;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RunningField")
-	float TopLaneGoalOffsetZ;
+	FVector2D TopLaneGoalOffsetXZ;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RunningField")
-	float BottomLaneGoalOffsetZ;
+	FVector2D BottomLaneGoalOffsetXZ;
 	
 public:	
 	ARunningField();
