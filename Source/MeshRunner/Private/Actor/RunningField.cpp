@@ -27,11 +27,21 @@ ARunningField::ARunningField()
 void ARunningField::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	
+	Initialize();
+}
+
+void ARunningField::BeginPlay()
+{
+	Super::BeginPlay();
+	Initialize();
+}
+
+void ARunningField::Initialize()
+{
 	if (RunningFieldSprite)
 	{
 		// Create Running Field Sprites
-		const float SpriteSizeX = RunningFieldSprite->GetSourceSize().X * 4;
+		const float SpriteSizeX = RunningFieldSprite->GetBakedTexture()->GetSizeX() * 4;
 		if (RunningFieldSprite)
 		{
 			for (int i = 0; i < AmountOfRunningFieldToCreate; i++)
@@ -46,10 +56,10 @@ void ARunningField::OnConstruction(const FTransform& Transform)
 		// Setup Track Collision Boxes
 		const float LainSizeX = AmountOfRunningFieldToCreate * SpriteSizeX / 2;
 		const FVector CollisionBoxSize = FVector(LainSizeX, 100, 1);
-	
+		
 		TopLaneCollisionBoxComponent->SetBoxExtent(CollisionBoxSize);
 		TopLaneCollisionBoxComponent->SetRelativeLocation(FVector(LainSizeX - SpriteSizeX / 2, CollisionBoxSize.Y / 2, TopLaneOffsetZ));
-	
+		
 		BottomLaneCollisionBoxComponent->SetBoxExtent(CollisionBoxSize);
 		BottomLaneCollisionBoxComponent->SetRelativeLocation(FVector(LainSizeX - SpriteSizeX / 2, CollisionBoxSize.Y / 2, BottomLaneOffsetZ));
 
