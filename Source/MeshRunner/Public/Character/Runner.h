@@ -16,10 +16,10 @@ class MESHRUNNER_API ARunner : public APaperCharacter
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* CameraBoom;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* Camera;
 
 protected:
