@@ -34,6 +34,9 @@ protected:
 	float SpeedDecreasePerTickWithDelta;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	float SlowMultiplierWhenRaceOver;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
 	UCurveFloat* SpeedIncreaseRampCurve;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")

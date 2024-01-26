@@ -52,7 +52,7 @@ void ARunner::Tick(const float DeltaSeconds)
 	float SpeedDecrease = SpeedDecreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedDecreasePerTickWithDelta * DeltaSeconds;
 	if (GameMode.IsValid() && GameMode->IsRaceOver())
 	{
-		SpeedDecrease *= 3;
+		SpeedDecrease *= SlowMultiplierWhenRaceOver;
 	}
 	
 	GetCharacterMovement()->MaxWalkSpeed = FMath::Max(0, GetCharacterMovement()->MaxWalkSpeed - SpeedDecrease);
