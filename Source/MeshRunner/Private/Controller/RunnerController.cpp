@@ -32,10 +32,18 @@ void ARunnerController::SetupInputComponent()
 
 void ARunnerController::InputLeftKey()
 {
-	RunnerPlayer->IncreaseSpeed();
+	if (LastInput == ERunnerInputType::Right)
+	{
+		RunnerPlayer->IncreaseSpeed();
+		LastInput = ERunnerInputType::Left;
+	}
 }
 
 void ARunnerController::InputRightKey()
 {
-	RunnerPlayer->IncreaseSpeed();
+	if (LastInput == ERunnerInputType::Left)
+	{
+		RunnerPlayer->IncreaseSpeed();
+		LastInput = ERunnerInputType::Right;
+	}
 }

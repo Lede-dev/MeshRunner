@@ -10,6 +10,13 @@ class ARunner;
 class UInputMappingContext;
 class UInputAction;
 
+UENUM()
+enum class ERunnerInputType : uint8
+{
+	Left,
+	Right
+};
+
 UCLASS()
 class MESHRUNNER_API ARunnerController : public APlayerController
 {
@@ -27,6 +34,7 @@ protected:
 
 protected:
 	TWeakObjectPtr<ARunner> RunnerPlayer;
+	ERunnerInputType LastInput = ERunnerInputType::Left;
 	
 protected:
 	virtual void BeginPlay() override;
