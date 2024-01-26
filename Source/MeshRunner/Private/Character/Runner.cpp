@@ -40,8 +40,8 @@ void ARunner::Tick(const float DeltaSeconds)
 	AddMovementInput(FVector(1, 0, 0));
 	
 	// Speed Decrease Per Tick
-	GetCharacterMovement()->MaxWalkSpeed =
-		FMath::Max(0, GetCharacterMovement()->MaxWalkSpeed - SpeedDecreasePerTickWithDelta * DeltaSeconds);
+	const float SpeedDecrease = SpeedDecreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedDecreasePerTickWithDelta * DeltaSeconds;
+	GetCharacterMovement()->MaxWalkSpeed =FMath::Max(0, GetCharacterMovement()->MaxWalkSpeed - SpeedDecrease);
 
 	// Update Sprite
 	GetSprite()->SetFlipbook(GetVelocity().Length() > 0 ? RunFlipbook : IdleFlipbook);
@@ -50,6 +50,7 @@ void ARunner::Tick(const float DeltaSeconds)
 
 void ARunner::IncreaseSpeed() const
 {
-	GetCharacterMovement()->MaxWalkSpeed =
-		FMath::Min(MaxSpeed, GetCharacterMovement()->MaxWalkSpeed + SpeedIncreasePerTab);
+	const float SpeedIncrease = SpeedIncreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedIncreasePerTab;
+	GetCharacterMovement()->MaxWalkSpeed = FMath::Min(MaxSpeed, GetCharacterMovement()->MaxWalkSpeed + SpeedIncrease);
 }
+

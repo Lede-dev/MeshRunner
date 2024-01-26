@@ -32,12 +32,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
 	float SpeedDecreasePerTickWithDelta;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	UCurveFloat* SpeedIncreaseRampCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	UCurveFloat* SpeedDecreaseRampCurve;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Flipbook")
 	UPaperFlipbook* IdleFlipbook;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Flipbook")
 	UPaperFlipbook* RunFlipbook;
-	
+
 public:
     ARunner();
 
