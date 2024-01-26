@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameMode/MeshRunnerGameMode.h"
 #include "Kismet/GameplayStatics.h"
 
 ARunner::ARunner()
@@ -33,12 +34,22 @@ void ARunner::OnConstruction(const FTransform& Transform)
 	}
 }
 
+void ARunner::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GameMode = MakeWeakObjectPtr(Cast<AMeshRunnerGameMode>(GetWorld()->GetAuthGameMode()));
+}
+
 void ARunner::Tick(const float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
 	// Add Speed Per Tick (Front Direction is Forward X)
-	AddMovementInput(FVector(1, 0, 0));
+	if (GameMode.IsValid() && GameMode->IsRaceStarted() && !GameMode->IsRaceOver())
+	{
+		AddMovementInput(FVector(1, 0, 0));
+	}
 	
 	// Speed Decrease Per Tick
 	const float SpeedDecrease = SpeedDecreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedDecreasePerTickWithDelta * DeltaSeconds;
@@ -63,5 +74,13 @@ void ARunner::IncreaseSpeed() const
 {
 	const float SpeedIncrease = SpeedIncreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedIncreasePerTab;
 	GetCharacterMovement()->MaxWalkSpeed = FMath::Min(MaxSpeed, GetCharacterMovement()->MaxWalkSpeed + SpeedIncrease);
+}
+
+void ARunner::AnnounceWinner(const int32 WinnerIndex) const
+{
+	if (GameMode.IsValid() && !GameMode->IsRaceOver())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Winner is %d"), WinnerIndex);
+	}
 }
 

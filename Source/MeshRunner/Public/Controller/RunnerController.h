@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "RunnerController.generated.h"
 
+class AMeshRunnerGameMode;
 class ARunner;
 class UInputMappingContext;
 class UInputAction;
@@ -34,6 +35,8 @@ protected:
 
 protected:
 	TWeakObjectPtr<ARunner> RunnerPlayer;
+	TWeakObjectPtr<AMeshRunnerGameMode> GameMode;
+	
 	ERunnerInputType LastInput = ERunnerInputType::Left;
 	
 protected:

@@ -6,6 +6,7 @@
 #include "PaperCharacter.h"
 #include "Runner.generated.h"
 
+class AMeshRunnerGameMode;
 class UCameraComponent;
 class USpringArmComponent;
 class UPaperFlipbook;
@@ -48,6 +49,9 @@ protected:
 	USoundBase* FootstepSoundCue;
 
 private:
+	TWeakObjectPtr<AMeshRunnerGameMode> GameMode;
+	
+private:
 	int32 LastFrame;
 	
 public:
@@ -55,9 +59,12 @@ public:
 
 protected:
 	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
 public:
 	void IncreaseSpeed() const;
+
+	void AnnounceWinner(const int32 WinnerIndex) const;
 	
 };

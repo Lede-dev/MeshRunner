@@ -21,6 +21,12 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* BottomLaneCollisionBoxComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="RunningField")
+	UChildActorComponent* TopLaneGoal;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="RunningField")
+	UChildActorComponent* BottomLaneGoal;
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RunningField")
@@ -34,6 +40,12 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RunningField")
 	float BottomLaneOffsetZ;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RunningField")
+	float TopLaneGoalOffsetZ;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RunningField")
+	float BottomLaneGoalOffsetZ;
 	
 public:	
 	ARunningField();

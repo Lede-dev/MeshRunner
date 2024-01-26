@@ -4,6 +4,13 @@
 #include "AI/EnemyAIController.h"
 
 #include "Character/Runner.h"
+#include "GameMode/MeshRunnerGameMode.h"
+
+void AEnemyAIController::BeginPlay()
+{
+	Super::BeginPlay();
+	GameMode = Cast<AMeshRunnerGameMode>(GetWorld()->GetAuthGameMode());
+}
 
 void AEnemyAIController::OnPossess(APawn* InPawn)
 {
@@ -15,13 +22,18 @@ void AEnemyAIController::Tick(const float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (!GetWorld()->GetTimerManager().IsTimerActive(InputTimer))
+	if (GameMode.IsValid() && GameMode->IsRaceStarted())
 	{
-		const float RandomInputDelay = FMath::RandRange(InputDelayMin, InputDelayMax);
-		GetWorld()->GetTimerManager().SetTimer(InputTimer, [this]
+		if (!GetWorld()->GetTimerManager().IsTimerActive(InputTimer))
 		{
-			Runner->IncreaseSpeed();
-			GetWorld()->GetTimerManager().ClearTimer(InputTimer);
-		}, RandomInputDelay, false);
+			const float RandomInputDelay = FMath::RandRange(InputDelayMin, InputDelayMax);
+			GetWorld()->GetTimerManager().SetTimer(InputTimer, [this]
+			{
+				if (Runner.IsValid())
+				{
+					Runner->IncreaseSpeed();
+				}
+			}, RandomInputDelay, false);
+		}
 	}
 }

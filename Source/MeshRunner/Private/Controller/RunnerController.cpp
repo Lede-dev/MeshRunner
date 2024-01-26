@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Character/Runner.h"
+#include "GameMode/MeshRunnerGameMode.h"
 
 void ARunnerController::BeginPlay()
 {
@@ -17,6 +18,7 @@ void ARunnerController::BeginPlay()
 	}
 
 	RunnerPlayer = MakeWeakObjectPtr(Cast<ARunner>(GetCharacter()));
+	GameMode = MakeWeakObjectPtr(Cast<AMeshRunnerGameMode>(GetWorld()->GetAuthGameMode()));
 }
 
 void ARunnerController::SetupInputComponent()
@@ -32,6 +34,11 @@ void ARunnerController::SetupInputComponent()
 
 void ARunnerController::InputLeftKey()
 {
+	if (GameMode.IsValid() && !GameMode->IsRaceStarted())
+	{
+		GameMode->SetRaceStarted(true);
+	}
+	
 	if (LastInput == ERunnerInputType::Right)
 	{
 		RunnerPlayer->IncreaseSpeed();
@@ -41,6 +48,11 @@ void ARunnerController::InputLeftKey()
 
 void ARunnerController::InputRightKey()
 {
+	if (GameMode.IsValid() && !GameMode->IsRaceStarted())
+	{
+		GameMode->SetRaceStarted(true);
+	}
+	
 	if (LastInput == ERunnerInputType::Left)
 	{
 		RunnerPlayer->IncreaseSpeed();

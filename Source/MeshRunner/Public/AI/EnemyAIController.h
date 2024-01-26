@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "EnemyAIController.generated.h"
 
+class AMeshRunnerGameMode;
 class ARunner;
 
 UCLASS()
@@ -22,11 +23,13 @@ protected:
 	
 protected:
 	TWeakObjectPtr<ARunner> Runner;
+	TWeakObjectPtr<AMeshRunnerGameMode> GameMode;
 
 protected:
 	FTimerHandle InputTimer;
 	
 protected:
+	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void Tick(float DeltaSeconds) override;
 
