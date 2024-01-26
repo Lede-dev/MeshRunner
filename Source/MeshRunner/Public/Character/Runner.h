@@ -6,12 +6,68 @@
 #include "PaperCharacter.h"
 #include "Runner.generated.h"
 
-/**
- * 
- */
+class AMeshRunnerGameMode;
+class UCameraComponent;
+class USpringArmComponent;
+class UPaperFlipbook;
+
 UCLASS()
 class MESHRUNNER_API ARunner : public APaperCharacter
 {
 	GENERATED_BODY()
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* Camera;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	float MaxSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	float SpeedIncreasePerTab;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	float SpeedDecreasePerTickWithDelta;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	float SlowMultiplierWhenRaceOver;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	UCurveFloat* SpeedIncreaseRampCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Speed")
+	UCurveFloat* SpeedDecreaseRampCurve;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Flipbook")
+	UPaperFlipbook* IdleFlipbook;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Flipbook")
+	UPaperFlipbook* RunFlipbook;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Sound")
+	USoundBase* FootstepSoundCue;
+
+private:
+	TWeakObjectPtr<AMeshRunnerGameMode> GameMode;
+	
+private:
+	int32 LastFrame;
+	
+public:
+    ARunner();
+
+protected:
+	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+
+public:
+	void IncreaseSpeed() const;
+
+	void AnnounceWinner(const int32 WinnerIndex) const;
 	
 };
