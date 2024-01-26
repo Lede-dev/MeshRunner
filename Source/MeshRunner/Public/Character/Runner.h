@@ -6,12 +6,32 @@
 #include "PaperCharacter.h"
 #include "Runner.generated.h"
 
-/**
- * 
- */
+class UCameraComponent;
+class USpringArmComponent;
+class UPaperFlipbook;
+
 UCLASS()
 class MESHRUNNER_API ARunner : public APaperCharacter
 {
 	GENERATED_BODY()
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* Camera;
+	
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner")
+	UPaperFlipbook* IdleFlipbook;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner")
+	UPaperFlipbook* RunFlipbook;
+
+	
+	
+public:
+    ARunner();
 	
 };
