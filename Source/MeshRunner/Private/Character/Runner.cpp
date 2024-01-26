@@ -46,14 +46,16 @@ void ARunner::Tick(const float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	// Add Speed Per Tick (Front Direction is Forward X)
-	if (GameMode.IsValid() && GameMode->IsRaceStarted() && !GameMode->IsRaceOver())
-	{
-		AddMovementInput(FVector(1, 0, 0));
-	}
+	AddMovementInput(FVector(1, 0, 0));
 	
 	// Speed Decrease Per Tick
-	const float SpeedDecrease = SpeedDecreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedDecreasePerTickWithDelta * DeltaSeconds;
-	GetCharacterMovement()->MaxWalkSpeed =FMath::Max(0, GetCharacterMovement()->MaxWalkSpeed - SpeedDecrease);
+	float SpeedDecrease = SpeedDecreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedDecreasePerTickWithDelta * DeltaSeconds;
+	if (GameMode.IsValid() && GameMode->IsRaceOver())
+	{
+		SpeedDecrease *= 3;
+	}
+	
+	GetCharacterMovement()->MaxWalkSpeed = FMath::Max(0, GetCharacterMovement()->MaxWalkSpeed - SpeedDecrease);
 
 	// Update Sprite
 	GetSprite()->SetFlipbook(GetVelocity().Length() > 0 ? RunFlipbook : IdleFlipbook);
@@ -72,8 +74,11 @@ void ARunner::Tick(const float DeltaSeconds)
 
 void ARunner::IncreaseSpeed() const
 {
-	const float SpeedIncrease = SpeedIncreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedIncreasePerTab;
-	GetCharacterMovement()->MaxWalkSpeed = FMath::Min(MaxSpeed, GetCharacterMovement()->MaxWalkSpeed + SpeedIncrease);
+	if (GameMode.IsValid() && GameMode->IsRaceStarted() && !GameMode->IsRaceOver())
+	{
+		const float SpeedIncrease = SpeedIncreaseRampCurve->GetFloatValue(GetVelocity().Length()) * SpeedIncreasePerTab;
+		GetCharacterMovement()->MaxWalkSpeed = FMath::Min(MaxSpeed, GetCharacterMovement()->MaxWalkSpeed + SpeedIncrease);
+	}
 }
 
 void ARunner::AnnounceWinner(const int32 WinnerIndex) const
