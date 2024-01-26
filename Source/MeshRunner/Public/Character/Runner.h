@@ -44,6 +44,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Flipbook")
 	UPaperFlipbook* RunFlipbook;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner|Sound")
+	USoundBase* FootstepSoundCue;
+
+private:
+	int32 LastFrame;
+	
 public:
     ARunner();
 

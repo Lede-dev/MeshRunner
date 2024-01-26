@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ARunner::ARunner()
 {
@@ -46,6 +47,16 @@ void ARunner::Tick(const float DeltaSeconds)
 	// Update Sprite
 	GetSprite()->SetFlipbook(GetVelocity().Length() > 0 ? RunFlipbook : IdleFlipbook);
 	GetSprite()->SetPlayRate(GetSprite()->GetFlipbook() == RunFlipbook ? GetVelocity().Length() / MaxSpeed : 1.0f);
+
+	if (GetSprite()->GetFlipbook() == RunFlipbook)
+	{
+		const int32 Frame = GetSprite()->GetPlaybackPositionInFrames();
+		if (Frame != LastFrame && (Frame == 1 || Frame == 5))
+		{
+			LastFrame = Frame;
+			UGameplayStatics::PlaySound2D(this, FootstepSoundCue);
+		}
+	}
 }
 
 void ARunner::IncreaseSpeed() const
