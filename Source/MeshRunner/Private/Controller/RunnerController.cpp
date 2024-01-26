@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Character/Runner.h"
 
 void ARunnerController::BeginPlay()
 {
@@ -14,6 +15,8 @@ void ARunnerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(InputMappingContext, 0);
 	}
+
+	RunnerPlayer = MakeWeakObjectPtr(Cast<ARunner>(GetCharacter()));
 }
 
 void ARunnerController::SetupInputComponent()
@@ -29,10 +32,10 @@ void ARunnerController::SetupInputComponent()
 
 void ARunnerController::InputLeftKey()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Input Left Key."));
+	RunnerPlayer->IncreaseSpeed();
 }
 
 void ARunnerController::InputRightKey()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Input Right Key."));
+	RunnerPlayer->IncreaseSpeed();
 }

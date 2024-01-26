@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "RunnerController.generated.h"
 
+class ARunner;
 class UInputMappingContext;
 class UInputAction;
 
@@ -24,6 +25,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Runner")
 	UInputAction* RightAction;
 
+protected:
+	TWeakObjectPtr<ARunner> RunnerPlayer;
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
