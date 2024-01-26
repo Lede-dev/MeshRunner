@@ -54,7 +54,7 @@ void ARunningField::OnConstruction(const FTransform& Transform)
 		BottomLaneCollisionBoxComponent->SetRelativeLocation(FVector(LainSizeX - SpriteSizeX / 2, CollisionBoxSize.Y / 2, BottomLaneOffsetZ));
 
 		// Setup Goal Collision Boxes
-		const float LainGoalX = SpriteSizeX * (AmountOfRunningFieldToCreate - 1);
+		const float LainGoalX = SpriteSizeX * (AmountOfRunningFieldToCreate - 2);
 		TopLaneGoal->SetRelativeLocation(FVector(LainGoalX + TopLaneGoalOffsetXZ.X, 1, TopLaneGoalOffsetXZ.Y));
 		BottomLaneGoal->SetRelativeLocation(FVector(LainGoalX + BottomLaneGoalOffsetXZ.X, 1, BottomLaneGoalOffsetXZ.Y));
 	}
